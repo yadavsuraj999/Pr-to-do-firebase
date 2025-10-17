@@ -7,7 +7,6 @@ import Login from "../pages/Login";
 
 const ProtectedRout = ({ Component }) => {
     const { user } = useSelector((state) => state.user);
-    console.log(user);
     const dispatch = useDispatch();
 
     useEffect(() => {

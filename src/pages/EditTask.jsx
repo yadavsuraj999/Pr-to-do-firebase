@@ -1,20 +1,35 @@
-import { useState } from "react";
-import Header from "./Header";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToDo } from "../features/todo/todoSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { editTodo } from "../features/todo/todoSlice";
+import Header from "./Header";
 import { toast } from "react-toastify";
 
-const AddTask = () => {
+const EditTask = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useSelector(state => state.user);
+
+  const taskToEdit = location.state?.task;
+
   const [input, setInput] = useState({
     taskname: "",
     taskdiscription: "",
     priority: "",
     status: "pending"
   });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (taskToEdit) {
+      setInput({
+        taskname: taskToEdit.taskname,
+        taskdiscription: taskToEdit.taskdiscription,
+        priority: taskToEdit.priority,
+        status: taskToEdit.status || "pending"
+      });
+    }
+  }, [taskToEdit]);
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.id]: e.target.value });
@@ -22,19 +37,17 @@ const AddTask = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!input.taskname.trim() || !input.taskdiscription.trim() || !input.priority.trim()) {
-      toast.error("Please fill all the input fields");
+      toast.error("Please fill all fields");
       return;
     }
 
-    dispatch(addToDo({ input, uid: user.uid }));
-
-    setInput({
-      taskname: "",
-      taskdiscription: "",
-      priority: "",
-      status: "pending"
-    });
+    dispatch(editTodo({
+      uid: user.uid,
+      id: taskToEdit.id,
+      updatedTask: input
+    }));
 
     navigate("/seetask");
   };
@@ -46,7 +59,7 @@ const AddTask = () => {
         <div className="container mx-auto px-6">
           <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-3xl shadow-lg p-10">
             <h2 className="text-4xl font-bold mb-10 text-center text-gray-900">
-              Create a New Task
+              Edit Task
             </h2>
 
             <form onSubmit={handleSubmit}>
@@ -60,7 +73,6 @@ const AddTask = () => {
                   onChange={handleChange}
                   type="text"
                   className="w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
-                  placeholder="Enter task name..."
                 />
               </div>
 
@@ -73,8 +85,22 @@ const AddTask = () => {
                   value={input.taskdiscription}
                   onChange={handleChange}
                   className="w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 h-32 resize-none"
-                  placeholder="Enter task description..."
                 />
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-semibold mb-2">
+                  Status
+                </label>
+                <select
+                  id="status"
+                  value={input.status}
+                  onChange={(e) => setInput({ ...input, status: e.target.value })}
+                  className="w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="complete">Complete</option>
+                </select>
               </div>
 
               <div className="mb-8">
@@ -108,7 +134,7 @@ const AddTask = () => {
                 type="submit"
                 className="w-full py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-md opacity-70"
               >
-                Add Task
+                Update Task
               </button>
             </form>
           </div>
@@ -118,4 +144,4 @@ const AddTask = () => {
   );
 };
 
-export default AddTask;
+export default EditTask;

@@ -1,7 +1,39 @@
-import { List } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import Header from './Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteTodo, featchTodo, editTodo } from '../features/todo/todoSlice';
+import { List } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const SeeTasks = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const { todoArr } = useSelector((state) => state.todo);
+
+  const navigate = useNavigate();
+  const [filter, setFilter] = useState("all"); 
+
+  useEffect(() => {
+    if (user?.uid) {
+      dispatch(featchTodo(user.uid));
+    }
+  }, [dispatch, user]);
+
+  const filteredTasks = todoArr.filter(task => {
+    if (filter === "all") return true;
+    return task.status === filter;
+  });
+
+  const handleComplete = (task) => {
+    dispatch(editTodo({
+      uid: user.uid,
+      id: task.id,
+      updatedTask: { ...task, status: "complete" }
+    }));
+    toast.success("Task marked as complete!");
+  };
+
   return (
     <div>
       <Header />
@@ -11,81 +43,96 @@ const SeeTasks = () => {
             Your Tasks
           </h2>
 
-          {/* Example Task Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            {/* Task Card 1 */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-900">Complete UI Design</h3>
-                <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  High
-                </span>
-              </div>
-              <p className="text-gray-600 mb-6 min-h-[60px]">
-                Finish the new dashboard mockups with improved user flow and visuals.
-              </p>
-              <div className="flex space-x-2">
-                <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                  Edit
-                </button>
-                <button className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">
-                  Delete
-                </button>
-              </div>
-            </div>
-
-            {/* Task Card 2 */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-900">Team Meeting Notes</h3>
-                <span className="bg-yellow-400 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Medium
-                </span>
-              </div>
-              <p className="text-gray-600 mb-6 min-h-[60px]">
-                Summarize feedback and action items from the weekly sync-up session.
-              </p>
-              <div className="flex space-x-2">
-                <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                  Edit
-                </button>
-                <button className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">
-                  Delete
-                </button>
-              </div>
-            </div>
-
-            {/* Task Card 3 */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-900">Code Review</h3>
-                <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Low
-                </span>
-              </div>
-              <p className="text-gray-600 mb-6 min-h-[60px]">
-                Review pull requests and check for code consistency and readability.
-              </p>
-              <div className="flex space-x-2">
-                <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                  Edit
-                </button>
-                <button className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">
-                  Delete
-                </button>
-              </div>
-            </div>
-
+          <div className="flex justify-center gap-4 mb-10">
+            <button
+              onClick={() => setFilter("all")}
+              className={`px-4 py-2 rounded ${filter === "all" ? "bg-indigo-600 text-white" : "bg-gray-200"}`}
+            >
+              All Task
+            </button>
+            <button
+              onClick={() => setFilter("pending")}
+              className={`px-4 py-2 rounded ${filter === "pending" ? "bg-indigo-600 text-white" : "bg-gray-200"}`}
+            >
+              Pending
+            </button>
+            <button
+              onClick={() => setFilter("complete")}
+              className={`px-4 py-2 rounded ${filter === "complete" ? "bg-indigo-600 text-white" : "bg-gray-200"}`}
+            >
+              Complete
+            </button>
           </div>
 
-          {/* If no tasks */}
-          <div className="text-center py-20 opacity-80">
-            <div className="bg-white border border-gray-200 rounded-2xl p-12 max-w-md mx-auto shadow">
-              <List className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 text-lg">No tasks available. Add one to get started.</p>
+          {filteredTasks.length === 0 ? (
+            <div className="text-center py-20 opacity-80">
+              <div className="bg-white border border-gray-200 rounded-2xl p-12 max-w-md mx-auto shadow">
+                <List className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 text-lg">
+                  No tasks available. Add one to get started.
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="bg-white border border-gray-200 rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-200"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <h3
+                      className={`text-xl font-bold text-gray-900 ${
+                        task.status === "complete" ? "line-through text-gray-400" : ""
+                      }`}
+                    >
+                      {task.taskname}
+                    </h3>
+                    <span
+                      className={`text-white text-xs font-bold px-3 py-1 rounded-full ${
+                        task.priority === 'high'
+                          ? 'bg-red-500'
+                          : task.priority === 'medium'
+                          ? 'bg-yellow-400'
+                          : 'bg-green-500'
+                      }`}
+                    >
+                      {task.priority}
+                    </span>
+                  </div>
+                  <p
+                    className={`text-gray-600 mb-6 min-h-[60px] ${
+                      task.status === "complete" ? "line-through text-gray-400" : ""
+                    }`}
+                  >
+                    {task.taskdiscription}
+                  </p>
+                  <div className="flex space-x-2">
+                    <button
+                      className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                      onClick={() => navigate("/edittask", { state: { task } })}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+                      onClick={() => dispatch(deleteTodo({ uid: user.uid, deleteTask: task.id }))}
+                    >
+                      Delete
+                    </button>
+                    {task.status !== "complete" && (
+                      <button
+                        className="flex-1 bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+                        onClick={() => handleComplete(task)}
+                      >
+                        Complete
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

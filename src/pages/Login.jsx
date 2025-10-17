@@ -9,9 +9,6 @@ import { auth } from "../firebase/config";
 const Login = () => {
 
   const [input, setInput] = useState({ email: "", password: "" })
-
-  // const naviget = useNavigate()
-
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -24,8 +21,6 @@ const Login = () => {
     if (!input.email.trim() || !input.password.trim()) {
       toast.error("Please fill all the input fields");
       return;
-    }else{
-      toast.success("Login Successfuly..")
     }
     dispatch(logIn(input));
     dispatch(googleLogIn(auth))
@@ -87,7 +82,7 @@ const Login = () => {
             </div>
 
             <div className="flex justify-center">
-              <button className="flex items-center justify-center w-full border-2 border-blue-500 rounded-lg py-2 hover:bg-blue-50 transition duration-200">
+              <button onClick={()=>dispatch(googleLogIn())} className="flex items-center justify-center w-full border-2 border-blue-500 rounded-lg py-2 hover:bg-blue-50 transition duration-200">
                 <FcGoogle className="text-2xl mr-2" />
                 <span className="text-gray-700 font-medium">Sign in with Google</span>
               </button>
