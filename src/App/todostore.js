@@ -3,7 +3,7 @@ import authReducer from "../features/auth/authSlice";
 import todoReducer from "../features/todo/todoSlice";
 
 
-export const store = configureStore({
+export const todostore = configureStore({
     reducer: {
         user: authReducer,
         todo: todoReducer
