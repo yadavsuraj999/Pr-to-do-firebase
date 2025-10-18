@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AddTask = () => {
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
   const [input, setInput] = useState({
     taskname: "",
     taskdiscription: "",
     priority: "",
-    status: "pending"
+    status: "pending",
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,7 +22,11 @@ const AddTask = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!input.taskname.trim() || !input.taskdiscription.trim() || !input.priority.trim()) {
+    if (
+      !input.taskname.trim() ||
+      !input.taskdiscription.trim() ||
+      !input.priority.trim()
+    ) {
       toast.error("Please fill all the input fields");
       return;
     }
@@ -33,7 +37,7 @@ const AddTask = () => {
       taskname: "",
       taskdiscription: "",
       priority: "",
-      status: "pending"
+      status: "pending",
     });
 
     navigate("/seetask");
@@ -82,31 +86,44 @@ const AddTask = () => {
                   Priority Level
                 </label>
                 <div className="flex gap-3">
-                  {["high", "medium", "low"].map((level) => (
-                    <button
-                      key={level}
-                      type="button"
-                      value={level}
-                      onClick={(e) => setInput({ ...input, priority: e.target.value })}
-                      className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${
-                        input.priority === level
-                          ? level === "high" ? "bg-red-600 text-white" :
-                            level === "medium" ? "bg-yellow-500 text-white" :
-                            "bg-green-600 text-white"
-                          : level === "high" ? "bg-red-600 text-white opacity-70" :
-                            level === "medium" ? "bg-yellow-500 text-white opacity-70" :
-                            "bg-green-600 text-white opacity-70"
+                  <button
+                    type="button"
+                    onClick={() => setInput({ ...input, priority: "high" })}
+                    className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${input.priority === "high"
+                      ? "bg-red-600 text-white"
+                      : "bg-white border-2 border-red-600 border-dashed text-red-600"
                       }`}
-                    >
-                      {level.charAt(0).toUpperCase() + level.slice(1)}
-                    </button>
-                  ))}
+                  >
+                    High
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setInput({ ...input, priority: "medium" })}
+                    className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${input.priority === "medium"
+                      ? "bg-yellow-500 text-white"
+                      : "bg-white border-2 border-yellow-500 border-dashed text-yellow-500"
+                      }`}
+                  >
+                    Medium
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setInput({ ...input, priority: "low" })}
+                    className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${input.priority === "low"
+                      ? "bg-green-600 text-white"
+                      : "bg-white border-2 border-green-600 border-dashed text-green-600"
+                      }`}
+                  >
+                    Low
+                  </button>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-md opacity-70"
+                className="w-full py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-md opacity-70 hover:opacity-100 transition"
               >
                 Add Task
               </button>

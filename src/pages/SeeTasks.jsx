@@ -12,7 +12,7 @@ const SeeTasks = () => {
   const { todoArr } = useSelector((state) => state.todo);
 
   const navigate = useNavigate();
-  const [filter, setFilter] = useState("all"); 
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     if (user?.uid) {
@@ -31,8 +31,8 @@ const SeeTasks = () => {
       id: task.id,
       updatedTask: { ...task, status: "complete" }
     }));
-    toast.success("Task marked as complete!");
   };
+
 
   return (
     <div>
@@ -82,28 +82,25 @@ const SeeTasks = () => {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <h3
-                      className={`text-xl font-bold text-gray-900 ${
-                        task.status === "complete" ? "line-through text-gray-400" : ""
-                      }`}
+                      className={`text-xl font-bold text-gray-900 ${task.status === "complete" ? "line-through text-gray-400" : ""
+                        }`}
                     >
                       {task.taskname}
                     </h3>
                     <span
-                      className={`text-white text-xs font-bold px-3 py-1 rounded-full ${
-                        task.priority === 'high'
-                          ? 'bg-red-500'
-                          : task.priority === 'medium'
+                      className={`text-white text-xs font-bold px-3 py-1 rounded-full ${task.priority === 'high'
+                        ? 'bg-red-500'
+                        : task.priority === 'medium'
                           ? 'bg-yellow-400'
                           : 'bg-green-500'
-                      }`}
+                        }`}
                     >
                       {task.priority}
                     </span>
                   </div>
                   <p
-                    className={`text-gray-600 mb-6 min-h-[60px] ${
-                      task.status === "complete" ? "line-through text-gray-400" : ""
-                    }`}
+                    className={`text-gray-600 mb-6 min-h-[60px] ${task.status === "complete" ? "line-through text-gray-400" : ""
+                      }`}
                   >
                     {task.taskdiscription}
                   </p>

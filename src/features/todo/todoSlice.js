@@ -47,13 +47,20 @@ export const editTodo = createAsyncThunk(
     async ({ uid, id, updatedTask }, { dispatch }) => {
         try {
             await setDoc(doc(db, "tasks", uid, "userTasks", id), updatedTask);
-            dispatch(featchTodo(uid)); 
-            toast.success("Task updated successfully");
+            dispatch(featchTodo(uid));
+
+            if (updatedTask.status === "complete") {
+                toast.success("Task marked as complete!");
+            } else {
+                toast.success("Task updated successfully");
+            }
+
         } catch (error) {
             toast.error(error.message);
         }
     }
 );
+
 
 
 const todoSlice = createSlice({

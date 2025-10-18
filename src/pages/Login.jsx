@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogIn, logIn } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
-import { auth } from "../firebase/config";
+
 
 const Login = () => {
 
@@ -23,8 +23,6 @@ const Login = () => {
       return;
     }
     dispatch(logIn(input));
-    dispatch(googleLogIn(auth))
-
   }
 
 
@@ -47,7 +45,7 @@ const Login = () => {
                 />
               </div>
 
-              <div className="mb-2">
+              <div className="mb-6">
                 <input
                   type="password"
                   id="password"
@@ -58,14 +56,14 @@ const Login = () => {
                 />
               </div>
 
-              <div className="text-right mb-6">
+              {/* <div className="text-right mb-6">
                 <a
                   href="#"
                   className="text-sm text-blue-600 hover:underline font-medium"
                 >
                   Forgot password?
                 </a>
-              </div>
+              </div> */}
 
               <button
                 type="submit"

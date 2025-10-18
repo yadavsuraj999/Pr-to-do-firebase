@@ -20,7 +20,7 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow hover:bg-blue-50 transition-colors">
+            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow transition-colors">
               <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center mb-4">
                 <Target className="w-7 h-7 text-white" />
               </div>
@@ -30,7 +30,7 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow hover:bg-green-50 transition-colors">
+            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow transition-colors">
               <div className="w-14 h-14 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Zap className="w-7 h-7 text-white" />
               </div>
@@ -40,7 +40,7 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow hover:bg-purple-50 transition-colors">
+            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow transition-colors">
               <div className="w-14 h-14 bg-purple-600 rounded-xl flex items-center justify-center mb-4">
                 <TrendingUp className="w-7 h-7 text-white" />
               </div>
@@ -51,7 +51,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow hover:bg-indigo-50 transition-colors">
+          <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow  transition-colors">
             <h2 className="text-3xl font-bold mb-4">Ready to boost your productivity?</h2>
             <p className="text-gray-600 mb-6">
               Start managing your tasks efficiently today.

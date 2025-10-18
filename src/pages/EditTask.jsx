@@ -9,7 +9,7 @@ const EditTask = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const taskToEdit = location.state?.task;
 
@@ -17,7 +17,7 @@ const EditTask = () => {
     taskname: "",
     taskdiscription: "",
     priority: "",
-    status: "pending"
+    status: "pending",
   });
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const EditTask = () => {
         taskname: taskToEdit.taskname,
         taskdiscription: taskToEdit.taskdiscription,
         priority: taskToEdit.priority,
-        status: taskToEdit.status || "pending"
+        status: taskToEdit.status || "pending",
       });
     }
   }, [taskToEdit]);
@@ -38,16 +38,22 @@ const EditTask = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!input.taskname.trim() || !input.taskdiscription.trim() || !input.priority.trim()) {
+    if (
+      !input.taskname.trim() ||
+      !input.taskdiscription.trim() ||
+      !input.priority.trim()
+    ) {
       toast.error("Please fill all fields");
       return;
     }
 
-    dispatch(editTodo({
-      uid: user.uid,
-      id: taskToEdit.id,
-      updatedTask: input
-    }));
+    dispatch(
+      editTodo({
+        uid: user.uid,
+        id: taskToEdit.id,
+        updatedTask: input,
+      })
+    );
 
     navigate("/seetask");
   };
@@ -57,7 +63,7 @@ const EditTask = () => {
       <Header />
       <section className="min-h-screen bg-gray-50 py-16 flex items-center text-gray-800">
         <div className="container mx-auto px-6">
-          <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-3xl shadow-lg p-10">
+          <div className="max-w-2xl mx-auto bg-white border-2 border-black border-dashed rounded-3xl shadow-lg p-10">
             <h2 className="text-4xl font-bold mb-10 text-center text-gray-900">
               Edit Task
             </h2>
@@ -95,7 +101,9 @@ const EditTask = () => {
                 <select
                   id="status"
                   value={input.status}
-                  onChange={(e) => setInput({ ...input, status: e.target.value })}
+                  onChange={(e) =>
+                    setInput({ ...input, status: e.target.value })
+                  }
                   className="w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
                 >
                   <option value="pending">Pending</option>
@@ -108,31 +116,44 @@ const EditTask = () => {
                   Priority Level
                 </label>
                 <div className="flex gap-3">
-                  {["high", "medium", "low"].map((level) => (
-                    <button
-                      key={level}
-                      type="button"
-                      value={level}
-                      onClick={(e) => setInput({ ...input, priority: e.target.value })}
-                      className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${
-                        input.priority === level
-                          ? level === "high" ? "bg-red-600 text-white" :
-                            level === "medium" ? "bg-yellow-500 text-white" :
-                            "bg-green-600 text-white"
-                          : level === "high" ? "bg-red-600 text-white opacity-70" :
-                            level === "medium" ? "bg-yellow-500 text-white opacity-70" :
-                            "bg-green-600 text-white opacity-70"
+                  <button
+                    type="button"
+                    onClick={() => setInput({ ...input, priority: "high" })}
+                    className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${input.priority === "high"
+                      ? "bg-red-600 text-white"
+                      : "bg-red-600 text-white opacity-70"
                       }`}
-                    >
-                      {level.charAt(0).toUpperCase() + level.slice(1)}
-                    </button>
-                  ))}
+                  >
+                    High
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setInput({ ...input, priority: "medium" })}
+                    className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${input.priority === "medium"
+                      ? "bg-yellow-500 text-white"
+                      : "bg-yellow-500 text-white opacity-70"
+                      }`}
+                  >
+                    Medium
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setInput({ ...input, priority: "low" })}
+                    className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${input.priority === "low"
+                      ? "bg-green-600 text-white"
+                      : "bg-green-600 text-white opacity-70"
+                      }`}
+                  >
+                    Low
+                  </button>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-md opacity-70"
+                className="w-full py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-md opacity-70 hover:opacity-100 transition"
               >
                 Update Task
               </button>
