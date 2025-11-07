@@ -56,7 +56,7 @@ const Home = () => {
             <p className="text-gray-600 mb-6">
               Start managing your tasks efficiently today.
             </p>
-            <button className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+            <button className="bg-indigo-600 hover:bg-indigo-900 hover:scale-95 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
               onClick={() => navigate("/addtask")}
             >
               Create Your First Task

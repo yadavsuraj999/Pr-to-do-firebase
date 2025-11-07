@@ -123,7 +123,7 @@ const AddTask = () => {
 
               <button
                 type="submit"
-                className="w-full py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-md opacity-70 hover:opacity-100 transition"
+                className="w-full py-4 bg-indigo-600 hover:bg-indigo-900 hover:scale-95 text-white font-bold text-lg rounded-xl shadow-md  transition"
               >
                 Add Task
               </button>

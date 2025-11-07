@@ -106,20 +106,20 @@ const SeeTasks = () => {
                   </p>
                   <div className="flex space-x-2">
                     <button
-                      className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                      className="flex-1 bg-blue-600 hover:bg-blue-900 hover:scale-95 text-white py-2 rounded-lg text-sm font-medium transition-colors"
                       onClick={() => navigate("/edittask", { state: { task } })}
                     >
                       Edit
                     </button>
                     <button
-                      className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+                      className="flex-1 bg-red-600 hover:bg-red-900 hover:scale-95 text-white py-2 rounded-lg text-sm font-medium  transition-colors"
                       onClick={() => dispatch(deleteTodo({ uid: user.uid, deleteTask: task.id }))}
                     >
                       Delete
                     </button>
                     {task.status !== "complete" && (
                       <button
-                        className="flex-1 bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+                        className="flex-1 bg-green-600 hover:bg-green-900 hover:scale-95 text-white py-2 rounded-lg text-sm font-medium  transition-colors"
                         onClick={() => handleComplete(task)}
                       >
                         Complete
