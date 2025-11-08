@@ -66,14 +66,21 @@ export const editTodo = createAsyncThunk(
 const todoSlice = createSlice({
     name: "todo",
     initialState: {
-        todoArr: []
+        todoArr: [],
+        isLoading: true
     },
-    reducers: {},
+    reducers: {
+        load: (state, action) => {
+            state.isLoading = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(featchTodo.fulfilled, (state, action) => {
             state.todoArr = action.payload;
+            state.isLoading = false
         });
     },
 });
 
 export default todoSlice.reducer;
+export const { load } = todoSlice.actions

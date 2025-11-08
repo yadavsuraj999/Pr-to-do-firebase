@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 const AddTask = () => {
   const { user } = useSelector((state) => state.user);
+
   const [input, setInput] = useState({
     taskname: "",
     taskdiscription: "",
@@ -111,7 +112,7 @@ const AddTask = () => {
                   <button
                     type="button"
                     onClick={() => setInput({ ...input, priority: "low" })}
-                    className={`flex-1 py-3 rounded-xl font-semibold shadow-md ${input.priority === "low"
+                    className={`flex-1 py-3 rounded-xl  font-semibold shadow-md ${input.priority === "low"
                       ? "bg-green-600 text-white"
                       : "bg-white border-2 border-green-600 border-dashed text-green-600"
                       }`}
