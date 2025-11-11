@@ -7,6 +7,7 @@ import AddTask from './pages/AddTask'
 import { ToastContainer } from 'react-toastify'
 import ProtectedRout from './components/ProtectedRout'
 import EditTask from './pages/EditTask'
+import Error from './pages/Error'
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                 <Route path='/addtask' element={<ProtectedRout Component={AddTask} />} />
                 <Route path='/seetask' element={<ProtectedRout Component={SeeTasks} />} />
                 <Route path='/edittask' element={<ProtectedRout Component={EditTask} />} />
+                <Route path='*' element={<Error />} />
             </Routes>
             <ToastContainer />
         </BrowserRouter>
